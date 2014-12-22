@@ -32,10 +32,12 @@ public class DIVTest {
         }
     }
 */
+    
     @Test
     public void test_slechts_1_value(){
-        assertEquals(1, DIV.getValues().length);
+        assertEquals(1, DIV.values().length);
     }
+    
     @Test
     public void test_niet_bestaan_setters() {
         Method[] lijst = DIV.class.getDeclaredMethods();
@@ -83,6 +85,6 @@ public class DIVTest {
                 platen.add(DIV.INSTANCE.getNummerplaat());
             }
         }
-        assertEquals(platen.size(), 999);
+        assertEquals(999, platen.size());
     }
 }
