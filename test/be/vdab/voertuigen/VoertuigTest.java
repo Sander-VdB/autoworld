@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Set;
+import javax.print.attribute.UnmodifiableSetException;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -492,6 +494,13 @@ public class VoertuigTest implements Serializable, MensFactorInTest {
             Mens[] expected = new Mens[]{INGEZETENE_A, BESTUURDER_B, INGEZETENE_B};
             assertArrayEquals(expected, voertuig.getIngezetenen().toArray(actual));
         }
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void getIngezetenen_geeftWijzigbareCollectionTerug() {
+        Voertuig voertuig = new TestVoertuig("auto", datum, 18300, AANTAL_INZITTENDEN, BESTUURDER_B, INGEZETENE_A, INGEZETENE_B);
+        Set<Mens> mensen = voertuig.getIngezetenen();
+        mensen.add(BESTUURDER_BE);
     }
 
     @Test

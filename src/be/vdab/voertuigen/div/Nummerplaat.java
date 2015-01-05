@@ -33,7 +33,7 @@ public class Nummerplaat implements Comparable<Nummerplaat>,Serializable{
         if (obj instanceof Nummerplaat) {
             return this.getPlaat().equals(((Nummerplaat) obj).getPlaat());
         } else {
-            return this.getPlaat().equals(obj);
+            return false;
         }
     }
 
