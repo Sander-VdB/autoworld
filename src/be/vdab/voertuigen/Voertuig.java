@@ -13,10 +13,8 @@ import be.vdab.voertuigen.div.DIV;
 import be.vdab.voertuigen.div.Nummerplaat;
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Set;
-import java.util.SortedSet;
+import java.util.List;
 import java.util.TreeSet;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -33,9 +31,9 @@ public abstract class Voertuig implements Comparable, Serializable {
     private Datum datumEersteIngebruikname;
     private int aankoopprijs;
     private int zitplaatsen;
-    private final TreeSet<Mens> mensen = new TreeSet<>();
+    private TreeSet<Mens> mensen = new TreeSet<Mens>();
     private Mens bestuurder;
-    //private final Rijbewijs[] toegestaneRijbewijzen = {Rijbewijs.B, Rijbewijs.BE};
+    private final Rijbewijs[] toegestaneRijbewijzen = {Rijbewijs.B, Rijbewijs.BE};
 
     public void setAankoopprijs(int aankoopprijs) {
         this.aankoopprijs = aankoopprijs;
@@ -53,7 +51,6 @@ public abstract class Voertuig implements Comparable, Serializable {
         if(zitplaatsen<1){
             throw new IllegalArgumentException("Ongeldig aantal zitplaatsen");
         }
-        //controleren op aantal inzittenden> zitplaatsen zou exception moeten geven, ontbreekt in testen
         this.zitplaatsen = zitplaatsen;
     }
 
@@ -63,6 +60,7 @@ public abstract class Voertuig implements Comparable, Serializable {
         } else if (this.getZitplaatsen() == this.getIngezetenen().size()) {
             throw new MensException("Geen zitplaatsen meer vrij");
         } else if (this.getIngezetenen().size() == 0) {
+            
             this.setBestuurder(mens);
             this.mensen.add(mens);
         } else {
@@ -74,6 +72,7 @@ public abstract class Voertuig implements Comparable, Serializable {
         if (!CollectionUtils.containsAny(Arrays.asList(mens.getRijbewijs()), Arrays.asList(this.getToegestaneRijbewijzen()))) {
             throw new MensException("Geen geldig rijbewijs");
         } else if (mensen.contains(mens)) {
+            //TODO
             this.bestuurder = mens;
         } else if (this.getZitplaatsen() == this.getIngezetenen().size()) {
             throw new MensException("Geen zitplaatsen meer vrij voor nieuwe bestuurder");
@@ -103,9 +102,8 @@ public abstract class Voertuig implements Comparable, Serializable {
         return zitplaatsen;
     }
 
-    protected SortedSet<Mens> getIngezetenen() {
-        //zou in de testen moeten zitten
-        return Collections.unmodifiableSortedSet(mensen);
+    protected TreeSet<Mens> getIngezetenen() {
+        return mensen;
     }
 
     public Mens getBestuurder() {
@@ -193,8 +191,10 @@ public abstract class Voertuig implements Comparable, Serializable {
         return this.getAankoopprijs() - aankoopprijs;
     }
 
-    protected abstract Rijbewijs[] getToegestaneRijbewijzen();
-    
+    protected Rijbewijs[] getToegestaneRijbewijzen() {
+        return this.toegestaneRijbewijzen;
+    }
+
     protected abstract int getMAX_ZITPLAATSEN();
 
     public static class MerkComparator implements Comparator<Voertuig>, Serializable{

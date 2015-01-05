@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -36,12 +35,12 @@ public class Mens implements Comparable<Mens>,Serializable {
     }
 
     public Rijbewijs[] getRijbewijs() {
-        return rijbewijzen.toArray(new Rijbewijs[rijbewijzen.size()]);
+        return getRijbewijsSet().toArray(new Rijbewijs[getRijbewijsSet().size()]);
     }
     
-//    private Set<Rijbewijs> getRijbewijsSet() {
-//        return this.rijbewijzen;
-//    }
+    private Set<Rijbewijs> getRijbewijsSet() {
+        return this.rijbewijzen;
+    }
 
     public Mens(String naam, Rijbewijs... rijbewijzen) {
         this.setNaam(naam);
@@ -54,62 +53,50 @@ public class Mens implements Comparable<Mens>,Serializable {
     }
 
     @Override
-    public final boolean equals(Object obj) {
-//        if (obj == null) {
-//            return false;
-//        } else if (obj instanceof Mens) {
-//            Mens mensObj = (Mens) obj;
-//            
-//            boolean naamGelijk = this.getNaam().equals(mensObj.getNaam());
-//            
-//            boolean rijbewijzenGelijk = true;
-//            if (this.rijbewijzen.size() != mensObj.rijbewijzen.size()) {
-//                rijbewijzenGelijk = false;
-//            } else {
-//                for (Rijbewijs rijbewijs : this.rijbewijzen) {
-//                    if (!mensObj.rijbewijzen.contains(rijbewijs)) {
-//                        rijbewijzenGelijk = false;
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            return naamGelijk && rijbewijzenGelijk;
-//        } else {
-//            return this.equals(obj);
-//        }
-        if(obj instanceof Mens){
-            Mens m = (Mens)obj;
-            return m.naam.equals(this.naam) && m.rijbewijzen.equals(this.rijbewijzen);
-        }
-        else
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
+        } else if (obj instanceof Mens) {
+            Mens mensObj = (Mens) obj;
+            
+            boolean naamGelijk = this.getNaam().equals(mensObj.getNaam());
+            
+            boolean rijbewijzenGelijk = true;
+            if (this.getRijbewijsSet().size() != mensObj.getRijbewijsSet().size()) {
+                rijbewijzenGelijk = false;
+            } else {
+                for (Rijbewijs rijbewijs : this.getRijbewijsSet()) {
+                    if (!mensObj.getRijbewijsSet().contains(rijbewijs)) {
+                        rijbewijzenGelijk = false;
+                        break;
+                    }
+                }
+            }
+
+            return naamGelijk && rijbewijzenGelijk;
+        } else {
+            return this.equals(obj);
+        }
+
     }
 
     @Override
     public int hashCode() {
-        return (this.getNaam()+this.rijbewijzen).hashCode();
+        return (this.getNaam()+this.getRijbewijsSet()).hashCode();
     }
 
-    //"Anita"
-    //"Andree(A)"
-    //"Ammelie(B, B+E, C, C+E)"
     @Override
     public String toString() {
-        StringBuilder rs = new StringBuilder();
-        rs.append(naam);
-        if(this.rijbewijzen.size()>0){
-//            rs.append("(");
-//            for(Rijbewijs rijbewijs : this.rijbewijzen){
-//                rs.append(rijbewijs+", ");
-//            }
-//            rs.delete(rs.length()-2,rs.length());
-//            rs.append(")");
-            rs.append("(")
-              .append(StringUtils.join(rijbewijzen, ", "))
-              .append(")");
+        StringBuilder rijbewijsString = new StringBuilder();
+        if(this.getRijbewijsSet().size()>0){
+            rijbewijsString.append("(");
+            for(Rijbewijs rijbewijs : this.getRijbewijsSet()){
+                rijbewijsString.append(rijbewijs+", ");
+            }
+            rijbewijsString.delete(rijbewijsString.length()-2,rijbewijsString.length());
+            rijbewijsString.append(")");
         }
-        return rs.toString();
+        return this.getNaam()+rijbewijsString;
     }
 
     

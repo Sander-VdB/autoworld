@@ -23,22 +23,22 @@ public enum DIV {
     }
     
     public Nummerplaat getNummerplaat() {
-//        String cijferreeks = "";
-//        if(cijfer<10){
-//            cijferreeks = "00"+cijfer;
-//        }
-//        else if(cijfer<100){
-//            cijferreeks = "0"+cijfer;
-//        } else{
-//            cijferreeks = ""+cijfer;
-//        }
+        String cijferreeks = "";
+        if(cijfer<10){
+            cijferreeks = "00"+cijfer;
+        }
+        else if(cijfer<100){
+            cijferreeks = "0"+cijfer;
+        } else{
+            cijferreeks = ""+cijfer;
+        }
         if(cijfer<999){
             this.cijfer++;
         }else{
             this.cijfer = 1;
         }
         
-        return new Nummerplaat(String.format("AAA%03d",cijfer));
+        return new Nummerplaat("AAA"+cijferreeks);
     }
     
 }
