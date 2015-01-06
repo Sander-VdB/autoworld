@@ -10,7 +10,17 @@ package be.vdab.util;
  * @author vdab
  */
 public enum Maat {
-    centimeter,
-    decimeter,
-    meter
+    centimeter (1),
+    decimeter (10),
+    meter(100);
+    
+    private int verhouding;
+    
+    private Maat(int verhouding){
+        this.verhouding=verhouding;
+    }
+    
+    public int get3DVerhouding(){
+        return verhouding*verhouding*verhouding;
+    }
 }

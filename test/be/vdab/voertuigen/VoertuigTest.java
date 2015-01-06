@@ -17,7 +17,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Set;
-import javax.print.attribute.UnmodifiableSetException;
 import org.junit.*;
 import static org.junit.Assert.*;
 

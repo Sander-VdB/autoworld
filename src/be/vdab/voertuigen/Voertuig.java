@@ -15,7 +15,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import org.apache.commons.collections.CollectionUtils;
@@ -37,19 +36,19 @@ public abstract class Voertuig implements Comparable, Serializable {
     private Mens bestuurder;
     //private final Rijbewijs[] toegestaneRijbewijzen = {Rijbewijs.B, Rijbewijs.BE};
 
-    public void setAankoopprijs(int aankoopprijs) {
+    public final void setAankoopprijs(int aankoopprijs) {
         this.aankoopprijs = aankoopprijs;
     }
 
-    public void setDatumEersteIngebruikname(Datum datumEersteIngebruikname) {
+    public final void setDatumEersteIngebruikname(Datum datumEersteIngebruikname) {
         this.datumEersteIngebruikname = datumEersteIngebruikname;
     }
 
-    public void setMerk(String merk) {
+    public final void setMerk(String merk) {
         this.merk = merk;
     }
 
-    public void setZitplaatsen(int zitplaatsen) {
+    public final void setZitplaatsen(int zitplaatsen) {
         if(zitplaatsen<1){
             throw new IllegalArgumentException("Ongeldig aantal zitplaatsen");
         }
@@ -57,7 +56,7 @@ public abstract class Voertuig implements Comparable, Serializable {
         this.zitplaatsen = zitplaatsen;
     }
 
-    public void addIngezetene(Mens mens) {
+    public final void addIngezetene(Mens mens) {
         if (mensen.contains(mens)) {
 
         } else if (this.getZitplaatsen() == this.getIngezetenen().size()) {
@@ -70,7 +69,7 @@ public abstract class Voertuig implements Comparable, Serializable {
         }
     }
 
-    public void setBestuurder(Mens mens) {
+    public final void setBestuurder(Mens mens) {
         if (!CollectionUtils.containsAny(Arrays.asList(mens.getRijbewijs()), Arrays.asList(this.getToegestaneRijbewijzen()))) {
             throw new MensException("Geen geldig rijbewijs");
         } else if (mensen.contains(mens)) {
@@ -132,11 +131,14 @@ public abstract class Voertuig implements Comparable, Serializable {
         }
 
         this.nummerplaat = DIV.INSTANCE.getNummerplaat();
+        
+        //Indien overriden in afgeleide klasse dan wordt die methode gebruikt (geeft problemen)
+        
+        //dus volgende methods final maken:
         this.setMerk(merk);
         this.setDatumEersteIngebruikname(datumEersteIngebruikname);
         this.setAankoopprijs(aankoopprijs);
         this.setZitplaatsen(zitplaatsen);
-
         this.setBestuurder(bestuurder);
         for (Mens mens : passagiers) {
             this.addIngezetene(mens);

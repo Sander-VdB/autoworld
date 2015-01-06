@@ -66,6 +66,7 @@ public class Volume implements Comparable<Volume>,Serializable{
 
     @Override
     public int compareTo(Volume o) {
+        //beter gebruik te maken van nieuwe waarden in enum!
         int maatThis = (this.getMaat()==Maat.centimeter)?1:(this.getMaat()==Maat.decimeter?1000:1000000);
         int maatO = (o.getMaat()==Maat.centimeter)?1:(o.getMaat()==Maat.decimeter?1000:1000000);;
         
